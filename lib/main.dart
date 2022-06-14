@@ -41,7 +41,7 @@ class Intro extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            const Text("GreenCode",
+            const Text("Code:Mind",
                 style: TextStyle(
                     color: Color(0xffEC7BA0), letterSpacing: 10, fontSize: 24)),
             const SizedBox(height: 36),

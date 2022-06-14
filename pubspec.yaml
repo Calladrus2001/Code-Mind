@@ -15,7 +15,7 @@ dependencies:
   speech_to_text: ^5.5.0
   avatar_glow: ^2.0.2
   flutter_countdown_timer: ^4.1.0
-  audioplayers: ^1.0.0
+  audioplayers: ^0.20.1
 
   flutter:
     sdk: flutter
