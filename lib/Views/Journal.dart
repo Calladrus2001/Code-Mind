@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greencode/constants.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:avatar_glow/avatar_glow.dart';
 
@@ -13,8 +14,9 @@ class _JournalState extends State<Journal> {
   late stt.SpeechToText _speech;
   bool isStarted = false;
   bool isListening = false;
-  Color clr1 = Color(0xffEC7BA0);
+  bool isComplete = false;
   String _text = "";
+  int _index = 0;
 
   void initState() {
     _speech = stt.SpeechToText();
@@ -25,70 +27,109 @@ class _JournalState extends State<Journal> {
   Widget build(BuildContext context) {
     return isStarted
         ? Scaffold(
+            backgroundColor: Colors.white,
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: isListening
-                ? AvatarGlow(
+            floatingActionButton: isComplete
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FloatingActionButton(
+                          heroTag: "btn1",
+                          backgroundColor: Colors.white,
+                          child: const Icon(Icons.refresh_rounded,
+                              color: Color(0xffEC7BA0)),
+                          onPressed: () {
+                            setState(() {
+                              _text = " ";
+                              isComplete = false;
+                            });
+                          }),
+                      const SizedBox(width: 12),
+                      const Text("or", style: TextStyle(color: Colors.grey)),
+                      const SizedBox(width: 12),
+                      FloatingActionButton(
+                          heroTag: "btn2",
+                          backgroundColor: Colors.white,
+                          child: const Icon(Icons.arrow_forward_ios_rounded,
+                              color: Color(0xffEC7BA0)),
+                          onPressed: () {
+                            setState(() {
+                              _text = " ";
+                              if (_index < Questions.length - 1) {
+                                _index += 1;
+                              } else {
+                                /// what happens when the user finishes ?
+                              }
+                              isComplete = false;
+                            });
+                          }),
+                    ],
+                  )
+                : AvatarGlow(
                     animate: isListening,
                     glowColor: clr1,
                     endRadius: 70.0,
                     duration: const Duration(milliseconds: 2000),
                     repeatPauseDuration: const Duration(milliseconds: 100),
                     repeat: true,
-                    child: FloatingActionButton(
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.mic,
-                          color: Color(0xffEC7BA0),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isListening = false;
-                          });
-                        }))
-                : FloatingActionButton(
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.mic_none,
-                      color: Color(0xffEC7BA0),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _listen();
-                        isListening = true;
-                      });
-                    },
-                  ),
+                    child: isListening
+                        ? FloatingActionButton(
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.mic,
+                              color: Color(0xffEC7BA0),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isListening = false;
+                              });
+                            })
+                        : FloatingActionButton(
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.mic_none,
+                              color: Color(0xffEC7BA0),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _listen();
+                                isListening = true;
+                              });
+                            },
+                          )),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
                   SizedBox(height: 64),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                     width: double.infinity,
                     decoration: BoxDecoration(
                         color: clr1,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: Text(
-                      "Question Text",
+                      Questions[_index],
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w600),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18),
                     ),
                   ),
                   SizedBox(height: 32),
                   Container(
                     width: double.infinity,
-                    child: Text(_text),
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: Colors.pinkAccent)),
+                    child: Text(_text,
+                        style: TextStyle(color: Colors.grey, fontSize: 18)),
                   )
                 ],
               ),
             ),
           )
         : Scaffold(
+            backgroundColor: Colors.white,
             body: Stack(
               children: [
                 Positioned(
@@ -119,7 +160,7 @@ class _JournalState extends State<Journal> {
           print('onStatus: $val');
           if (val == "done") {
             setState(() {
-              // isComplete = true;
+              isComplete = true;
               isListening = false;
             });
           }

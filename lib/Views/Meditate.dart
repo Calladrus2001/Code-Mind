@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:greencode/constants.dart';
 
 class Meditate extends StatefulWidget {
   const Meditate({Key? key}) : super(key: key);
@@ -46,13 +47,17 @@ class _MeditateState extends State<Meditate> {
 
   @override
   Widget build(BuildContext context) {
-    Color clr1 = Color(0xffEC7BA0);
-
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
-        child: Icon(Icons.play_arrow_outlined, color: clr1),
+        child: isPlaying
+            ? Icon(Icons.pause, color: clr1)
+            : Icon(
+                Icons.play_arrow_outlined,
+                color: clr1,
+                size: 28,
+              ),
         onPressed: () async {
           if (isPlaying) {
             await audioplayer.pause();
