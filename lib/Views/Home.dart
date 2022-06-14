@@ -18,6 +18,7 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
           currentIndex: _index,
           selectedItemColor: Color(0xffEC7BA0),
           unselectedItemColor: Colors.grey,
