@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:greencode/Views/Journal.dart';
-import 'package:greencode/Views/Meditate.dart';
-import 'package:greencode/Views/Profile.dart';
+import 'package:greencode/Views/Home/Journal.dart';
+import 'package:greencode/Views/Home/Meditate.dart';
+import 'package:greencode/Views/Home/Profile.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
