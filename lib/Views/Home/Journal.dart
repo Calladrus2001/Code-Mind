@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:greencode/constants.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Journal extends StatefulWidget {
   const Journal({Key? key}) : super(key: key);
@@ -15,15 +16,20 @@ class _JournalState extends State<Journal> {
   bool isStarted = false;
   bool isListening = false;
   bool isComplete = false;
+  String _entry = "";
   String _text = "";
   int _index = 0;
+  late FirebaseFirestore firestore;
 
   void initState() {
     _speech = stt.SpeechToText();
+    firestore = FirebaseFirestore.instance;
     super.initState();
   }
 
   @override
+  CollectionReference entries =
+      FirebaseFirestore.instance.collection('JournalEntries');
   Widget build(BuildContext context) {
     return isStarted
         ? Scaffold(
@@ -53,16 +59,18 @@ class _JournalState extends State<Journal> {
                           backgroundColor: Colors.white,
                           child: const Icon(Icons.arrow_forward_ios_rounded,
                               color: Color(0xffEC7BA0)),
-                          onPressed: () {
-                            setState(() {
-                              _text = " ";
-                              if (_index < Questions.length - 1) {
+                          onPressed: () async {
+                            if (_index < Questions.length - 1) {
+                              setState(() {
+                                _entry = _entry + "\n" + _text;
+                                _text = " ";
                                 _index += 1;
-                              } else {
-                                /// what happens when the user finishes ?
-                              }
-                              isComplete = false;
-                            });
+                                isComplete = false;
+                              });
+                            } else {
+                              /// write to db
+                              addEntry();
+                            }
                           }),
                     ],
                   )
@@ -151,6 +159,14 @@ class _JournalState extends State<Journal> {
               ],
             ),
           );
+  }
+
+  Future<void> addEntry() {
+    // Call the user's CollectionReference to add a new user
+    return entries
+        .add({"Entry": _entry, "dateAdded": DateTime.now().day})
+        .then((value) => print("Entry Added"))
+        .catchError((error) => print("Failed to add entry: $error"));
   }
 
   void _listen() async {
