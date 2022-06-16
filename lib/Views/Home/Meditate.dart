@@ -15,7 +15,8 @@ class _MeditateState extends State<Meditate> {
   bool isPlaying = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
-
+  bool isTimeSelected = false;
+  var _value;
   @override
   void initState() {
     audioplayer = AudioPlayer();
@@ -59,14 +60,18 @@ class _MeditateState extends State<Meditate> {
                 size: 28,
               ),
         onPressed: () async {
-          if (isPlaying) {
-            await audioplayer.pause();
+          if (isTimeSelected) {
+            if (isPlaying) {
+              await audioplayer.pause();
+            } else {
+              await audioplayer.resume();
+            }
+            setState(() {
+              isPlaying = !isPlaying;
+            });
           } else {
-            await audioplayer.resume();
+            print("select time");
           }
-          setState(() {
-            isPlaying = !isPlaying;
-          });
         },
       ),
       backgroundColor: Colors.white,
@@ -80,6 +85,35 @@ class _MeditateState extends State<Meditate> {
           Text(
             "Experience Peace",
             style: TextStyle(color: clr1, letterSpacing: 3, fontSize: 24),
+          ),
+          SizedBox(height: 48),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List<Widget>.generate(
+              4,
+              (int index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: ChoiceChip(
+                    selectedColor: clr1,
+                    disabledColor: Colors.grey,
+                    label: Text('${15 * (index + 1)} min',
+                        style: TextStyle(color: Colors.white)),
+                    selected: _value == index,
+                    onSelected: (bool selected) {
+                      setState(() {
+                        _value = selected ? index : null;
+                        if (_value == null) {
+                          isTimeSelected = false;
+                        } else {
+                          isTimeSelected = true;
+                        }
+                      });
+                    },
+                  ),
+                );
+              },
+            ).toList(),
           )
         ],
       ),

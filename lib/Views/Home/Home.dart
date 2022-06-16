@@ -25,7 +25,7 @@ class _HomepageState extends State<Homepage> {
           showUnselectedLabels: false,
           items: const [
             BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle_rounded), label: "Personalise"),
+                icon: Icon(Icons.emoji_emotions_outlined), label: "Jokes"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.hourglass_bottom_outlined), label: "Meditate"),
             BottomNavigationBarItem(
