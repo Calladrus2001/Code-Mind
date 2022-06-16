@@ -51,3 +51,4 @@ android/app/*.json
 lib/firebase_options.dart
 ios/*.json
 lib/secrets.dart
+AndroidManifest.xml

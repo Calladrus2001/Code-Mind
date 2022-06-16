@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:greencode/Views/Home/Journal.dart';
 import 'package:greencode/Views/Home/Meditate.dart';
-import 'package:greencode/Views/Home/Profile.dart';
+import 'package:greencode/Views/Home/Jokes.dart';
+import 'package:greencode/Views/Home/therapist.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  List<Widget> bodyPages = [Profile(), Meditate(), Journal()];
+  List<Widget> bodyPages = [Profile(), Meditate(), Journal(), Therapist()];
   int _index = 1;
 
   @override
@@ -30,6 +31,8 @@ class _HomepageState extends State<Homepage> {
                 icon: Icon(Icons.hourglass_bottom_outlined), label: "Meditate"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.book_outlined), label: "Your Journal"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.map_outlined), label: "Near you"),
           ],
           onTap: (int index) {
             setState(() {

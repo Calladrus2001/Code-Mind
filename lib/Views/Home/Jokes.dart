@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greencode/Models/jokes.dart';
 import 'package:greencode/Services/jokesAPI.dart';
 import 'package:greencode/constants.dart';
-import 'package:http/http.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -21,7 +19,6 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _joke = joke;
     });
-    print(_joke.toString());
   }
 
   @override

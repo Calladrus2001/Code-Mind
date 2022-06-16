@@ -138,25 +138,15 @@ class _JournalState extends State<Journal> {
           )
         : Scaffold(
             backgroundColor: Colors.white,
-            body: Stack(
-              children: [
-                Positioned(
-                    left: 10,
-                    right: 10,
-                    bottom: 20,
-                    child: GestureDetector(
-                      child: Chip(
-                        label: Text("Start", style: TextStyle(color: clr1)),
-                        backgroundColor: Colors.white,
-                        elevation: 4.0,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          isStarted = true;
-                        });
-                      },
-                    ))
-              ],
+            floatingActionButton: FloatingActionButton(
+              elevation: 4.0,
+              child: Icon(Icons.add, color: clr1),
+              backgroundColor: Colors.white,
+              onPressed: () {
+                setState(() {
+                  isStarted = true;
+                });
+              },
             ),
           );
   }

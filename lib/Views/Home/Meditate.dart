@@ -1,6 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:greencode/constants.dart';
 
 class Meditate extends StatefulWidget {
@@ -17,6 +16,7 @@ class _MeditateState extends State<Meditate> {
   Duration position = Duration.zero;
   bool isTimeSelected = false;
   var _value;
+
   @override
   void initState() {
     audioplayer = AudioPlayer();
@@ -75,47 +75,50 @@ class _MeditateState extends State<Meditate> {
         },
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          SizedBox(height: 64),
-          Image(
-            image: AssetImage("assets/images/meditate.png"),
-          ),
-          SizedBox(height: 8),
-          Text(
-            "Experience Peace",
-            style: TextStyle(color: clr1, letterSpacing: 3, fontSize: 24),
-          ),
-          SizedBox(height: 48),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List<Widget>.generate(
-              4,
-              (int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  child: ChoiceChip(
-                    selectedColor: clr1,
-                    disabledColor: Colors.grey,
-                    label: Text('${15 * (index + 1)} min',
-                        style: TextStyle(color: Colors.white)),
-                    selected: _value == index,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        _value = selected ? index : null;
-                        if (_value == null) {
-                          isTimeSelected = false;
-                        } else {
-                          isTimeSelected = true;
-                        }
-                      });
-                    },
-                  ),
-                );
-              },
-            ).toList(),
-          )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          children: [
+            SizedBox(height: 64),
+            Image(
+              image: AssetImage("assets/images/meditate.png"),
+            ),
+            SizedBox(height: 8),
+            Text(
+              "Experience Peace",
+              style: TextStyle(color: clr1, letterSpacing: 3, fontSize: 24),
+            ),
+            SizedBox(height: 48),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List<Widget>.generate(
+                4,
+                (int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: ChoiceChip(
+                      selectedColor: clr1,
+                      disabledColor: Colors.grey,
+                      label: Text('${15 * (index + 1)} min',
+                          style: TextStyle(color: Colors.white)),
+                      selected: _value == index,
+                      onSelected: (bool selected) {
+                        setState(() {
+                          _value = selected ? index : null;
+                          if (_value == null) {
+                            isTimeSelected = false;
+                          } else {
+                            isTimeSelected = true;
+                          }
+                        });
+                      },
+                    ),
+                  );
+                },
+              ).toList(),
+            )
+          ],
+        ),
       ),
     );
   }
