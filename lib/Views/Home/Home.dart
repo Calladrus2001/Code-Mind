@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:greencode/Views/Home/Journal.dart';
 import 'package:greencode/Views/Home/Meditate.dart';
 import 'package:greencode/Views/Home/Jokes.dart';
-import 'package:greencode/Views/Home/therapist.dart';
+import 'package:greencode/Views/Home/NearYou.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  List<Widget> bodyPages = [Profile(), Meditate(), Journal(), Therapist()];
+  List<Widget> bodyPages = [Profile(), Meditate(), Journal(), NearYou()];
   int _index = 1;
 
   @override
