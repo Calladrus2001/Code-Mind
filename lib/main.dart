@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: AuthScreen(),
+      home: Intro(),
     );
   }
 }
@@ -67,7 +67,7 @@ class Intro extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Get.to(() => Homepage());
+                Get.to(() => AuthScreen());
               },
             ),
             const SizedBox(height: 120)

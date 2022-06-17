@@ -33,7 +33,7 @@ class _NearYouState extends State<NearYou> {
 
   @override
   void initState() {
-    getResults();
+    // getResults();
     super.initState();
   }
 

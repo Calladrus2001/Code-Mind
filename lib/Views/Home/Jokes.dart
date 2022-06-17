@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greencode/Models/jokes.dart';
 import 'package:greencode/Services/jokesAPI.dart';
@@ -30,6 +31,13 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.logout_outlined, color: clr1),
+        backgroundColor: Colors.white,
+        onPressed: () {
+          FirebaseAuth.instance.signOut();
+        },
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -45,20 +53,23 @@ class _ProfileState extends State<Profile> {
             ),
             SizedBox(height: 16),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 8),
               height: 200,
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 border: Border.all(width: 1, color: clr1),
               ),
-              child: Center(
-                  child: _joke == null
-                      ? CircularProgressIndicator()
-                      : Text(
-                          _joke.joke.toString(),
-                          style: TextStyle(color: Colors.grey, fontSize: 20),
-                          textAlign: TextAlign.center,
-                        )),
+              child: SingleChildScrollView(
+                child: Center(
+                    child: _joke == null
+                        ? CircularProgressIndicator()
+                        : Text(
+                            _joke.joke.toString(),
+                            style: TextStyle(color: Colors.grey, fontSize: 20),
+                            textAlign: TextAlign.center,
+                          )),
+              ),
             ),
             SizedBox(height: 8),
             GestureDetector(

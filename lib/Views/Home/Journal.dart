@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greencode/constants.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -20,6 +23,11 @@ class _JournalState extends State<Journal> {
   String _text = "";
   int _index = 0;
   late FirebaseFirestore firestore;
+  final Stream<QuerySnapshot> journalStream = FirebaseFirestore.instance
+      .collection('users')
+      .doc("${FirebaseAuth.instance.currentUser!.email}")
+      .collection("JournalEntries")
+      .snapshots();
 
   void initState() {
     _speech = stt.SpeechToText();
@@ -27,9 +35,12 @@ class _JournalState extends State<Journal> {
     super.initState();
   }
 
+  CollectionReference entries = FirebaseFirestore.instance
+      .collection('users')
+      .doc("${FirebaseAuth.instance.currentUser!.email}")
+      .collection("JournalEntries");
+
   @override
-  CollectionReference entries =
-      FirebaseFirestore.instance.collection('JournalEntries');
   Widget build(BuildContext context) {
     return isStarted
         ? Scaffold(
@@ -70,6 +81,11 @@ class _JournalState extends State<Journal> {
                             } else {
                               /// write to db
                               addEntry();
+                              _index = 0;
+                              sleep(Duration(milliseconds: 1500));
+                              setState(() {
+                                isStarted = false;
+                              });
                             }
                           }),
                     ],
@@ -148,13 +164,47 @@ class _JournalState extends State<Journal> {
                 });
               },
             ),
+            body: StreamBuilder(
+              stream: journalStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
+                if (snapshot.hasError) {
+                  return Center(child: CircularProgressIndicator(color: clr1));
+                }
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: ListView(
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      return Card(
+                        elevation: 4.0,
+                        child: ListTile(
+                          title: Text(data['dateAdded'],
+                              style: TextStyle(color: clr1)),
+                          subtitle: Text(data['Entry']),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                );
+              },
+            ),
           );
   }
 
   Future<void> addEntry() {
     // Call the user's CollectionReference to add a new user
     return entries
-        .add({"Entry": _entry, "dateAdded": DateTime.now().day})
+        .add({
+          "Entry": _entry,
+          "dateAdded":
+              "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}"
+        })
         .then((value) => print("Entry Added"))
         .catchError((error) => print("Failed to add entry: $error"));
   }
