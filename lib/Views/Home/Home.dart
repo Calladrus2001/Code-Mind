@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greencode/Views/Home/Blog.dart';
 import 'package:greencode/Views/Home/Journal.dart';
 import 'package:greencode/Views/Home/Meditate.dart';
 import 'package:greencode/Views/Home/Jokes.dart';
@@ -12,8 +13,14 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  List<Widget> bodyPages = [Profile(), Meditate(), Journal(), NearYou()];
-  int _index = 1;
+  List<Widget> bodyPages = [
+    Profile(),
+    Meditate(),
+    Blog(),
+    Journal(),
+    NearYou()
+  ];
+  int _index = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +36,8 @@ class _HomepageState extends State<Homepage> {
                 icon: Icon(Icons.emoji_emotions_outlined), label: "Jokes"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.hourglass_bottom_outlined), label: "Meditate"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.newspaper_outlined), label: "Blogs"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.book_outlined), label: "Your Journal"),
             BottomNavigationBarItem(
