@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greencode/Views/Call/index.dart';
 import 'package:greencode/Views/chatbot.dart';
 import 'package:greencode/Widgets/MentalPage.dart';
 import 'package:greencode/constants.dart';
@@ -17,13 +18,29 @@ class _BlogState extends State<Blog> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        heroTag: "btn1",
-        child: Icon(Icons.chat_bubble_outlined, color: clr1),
-        backgroundColor: Colors.white,
-        onPressed: () {
-          Get.to(() => ChatBot());
-        },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FloatingActionButton(
+            heroTag: "btn1",
+            child: Icon(Icons.chat_bubble_outlined, color: clr1),
+            backgroundColor: Colors.white,
+            onPressed: () {
+              Get.to(() => ChatBot());
+            },
+          ),
+          SizedBox(width: 8),
+          Text("or", style: TextStyle(color: Colors.grey)),
+          SizedBox(width: 8),
+          FloatingActionButton(
+            heroTag: "btn2",
+            child: Icon(Icons.videocam_outlined, color: clr1),
+            backgroundColor: Colors.white,
+            onPressed: () {
+              Get.to(() => IndexPage());
+            },
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: PageView(
